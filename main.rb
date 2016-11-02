@@ -12,11 +12,20 @@ module WslUtils
 
     commands.each do |klass|
       command = klass.to_s.split("::").last.downcase
-      desc command, ""
+      desc command, command
       subcommand command, klass
     end
 
-    default_task :exec
+    desc "default command", "", :hide => true
+    def help_or_exec(*args)
+      if args.size == 0
+        help
+      else
+        exec *args
+      end
+    end
+
+    default_task :help_or_exec
   end
 end
 
